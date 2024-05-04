@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudyBuddy.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace StudyBuddy
 {
@@ -9,6 +10,8 @@ namespace StudyBuddy
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<StudyBuddyContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("StudyBuddyContext") ?? throw new InvalidOperationException("Connection string 'StudyBuddyContext' not found.")));
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
