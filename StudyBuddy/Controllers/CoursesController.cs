@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudyBuddy.Data;
 using StudyBuddy.Models;
+using StudyBuddy.Models;
 
-namespace StudyBuddy.Controllers
+namespace CourseManagement.Controllers
 {
     public class CoursesController : Controller
     {
@@ -20,11 +21,37 @@ namespace StudyBuddy.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string courseSubject, string searchString)
         {
-              return _context.Course != null ? 
-                          View(await _context.Course.ToListAsync()) :
-                          Problem("Entity set 'StudyBuddyContext.Course'  is null.");
+            if (_context.Course == null)
+            {
+                return Problem("Entity set 'CourseManagementContext.Movie'  is null.");
+            }
+
+            // Use LINQ to get list of subjects.
+            IQueryable<string> subjectQuery = from m in _context.Course
+                                              orderby m.Subject
+                                              select m.Subject;
+            var courses = from c in _context.Course
+                          select c;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(s => s.Name!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(courseSubject))
+            {
+                courses = courses.Where(x => x.Subject == courseSubject);
+            }
+
+            var courseSubjectVM = new CourseSubjectViewModel
+            {
+                Subjects = new SelectList(await subjectQuery.Distinct().ToListAsync()),
+                Courses = await courses.ToListAsync()
+            };
+
+            return View(courseSubjectVM);
         }
 
         // GET: Courses/Details/5
@@ -143,21 +170,21 @@ namespace StudyBuddy.Controllers
         {
             if (_context.Course == null)
             {
-                return Problem("Entity set 'StudyBuddyContext.Course'  is null.");
+                return Problem("Entity set 'CourseManagementContext.Course'  is null.");
             }
             var course = await _context.Course.FindAsync(id);
             if (course != null)
             {
                 _context.Course.Remove(course);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourseExists(int id)
         {
-          return (_context.Course?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Course?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
