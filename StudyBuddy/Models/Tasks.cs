@@ -13,7 +13,7 @@ namespace StudyBuddy.Models
         /// <value>
         /// The identifier.
         /// </value>
-        public string? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the task.

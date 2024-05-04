@@ -21,9 +21,9 @@ namespace StudyBuddy.Controllers
         }
 
         // GET: Tasks/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return NotFound();
             }
@@ -53,23 +53,23 @@ namespace StudyBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!int.TryParse(tasks.Id, out _))
-                {
-                    ModelState.AddModelError("Id", "ID must be an integer.");
-                    return View(tasks);
-                }
+                //if (!int.TryParse(tasks.Id, out _))
+                //{
+                //    ModelState.AddModelError("Id", "ID must be an integer.");
+                //    return View(tasks);
+                //}
 
-                if (tasks.EndDate < tasks.CreatedDate)
-                {
-                    ModelState.AddModelError("EndDate", "End date cannot be before the created date.");
-                    return View(tasks);
-                }
+                //if (tasks.EndDate < tasks.CreatedDate)
+                //{
+                //    ModelState.AddModelError("EndDate", "End date cannot be before the created date.");
+                //    return View(tasks);
+                //}
 
-                if (tasks.EndDate < DateTime.Today)
-                {
-                    ModelState.AddModelError("EndDate", "End date cannot be earlier than today.");
-                    return View(tasks);
-                }
+                //if (tasks.EndDate < DateTime.Today)
+                //{
+                //    ModelState.AddModelError("EndDate", "End date cannot be earlier than today.");
+                //    return View(tasks);
+                //}
 
                 _context.Add(tasks);
                 await _context.SaveChangesAsync();
@@ -79,9 +79,9 @@ namespace StudyBuddy.Controllers
         }
 
         // GET: Tasks/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace StudyBuddy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,TaskName,CreatedDate,EndDate")] Tasks tasks)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskName,CreatedDate,EndDate")] Tasks tasks)
         {
             if (id != tasks.Id)
             {
@@ -142,7 +142,7 @@ namespace StudyBuddy.Controllers
         }
 
         // GET: Tasks/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -162,7 +162,7 @@ namespace StudyBuddy.Controllers
         // POST: Tasks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tasks = await _context.Tasks.FindAsync(id);
             if (tasks != null)
@@ -174,7 +174,7 @@ namespace StudyBuddy.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TasksExists(string id)
+        private bool TasksExists(int id)
         {
             return _context.Tasks.Any(e => e.Id == id);
         }
