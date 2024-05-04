@@ -22,7 +22,7 @@ namespace StudyBuddy.Models
         /// The name.
         /// </value>
         [Display(Name = "Course Name")]
-        [StringLength(30, MinimumLength = 10)]
+        [StringLength(30, MinimumLength = 5)]
         [Required]
         public string? Name { get; set; }
 
