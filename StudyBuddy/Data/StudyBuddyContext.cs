@@ -17,5 +17,7 @@ namespace StudyBuddy.Data
         public DbSet<StudyBuddy.Models.Course> Course { get; set; } = default!;
 
         public DbSet<StudyBuddy.Models.Tasks> Tasks { get; set; } = default!;
+
+        public DbSet<StudyBuddy.Models.Event> Event { get; set; } = default!;
     }
 }
