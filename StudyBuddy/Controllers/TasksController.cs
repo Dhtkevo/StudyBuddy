@@ -53,24 +53,6 @@ namespace StudyBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (!int.TryParse(tasks.Id, out _))
-                //{
-                //    ModelState.AddModelError("Id", "ID must be an integer.");
-                //    return View(tasks);
-                //}
-
-                //if (tasks.EndDate < tasks.CreatedDate)
-                //{
-                //    ModelState.AddModelError("EndDate", "End date cannot be before the created date.");
-                //    return View(tasks);
-                //}
-
-                //if (tasks.EndDate < DateTime.Today)
-                //{
-                //    ModelState.AddModelError("EndDate", "End date cannot be earlier than today.");
-                //    return View(tasks);
-                //}
-
                 _context.Add(tasks);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

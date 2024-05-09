@@ -72,7 +72,7 @@ namespace EventsPage.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,description,type,location,date")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Type,Location,Date")] Event @event)
         {
             if (ModelState.IsValid)
             {
